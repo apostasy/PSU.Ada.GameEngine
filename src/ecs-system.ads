@@ -1,6 +1,7 @@
 with ecs.component; use ecs.component;
 with ecs.entity; use ecs.entity;
 with Ada.Tags; use Ada.Tags;
+with Renderer;
 
 package ecs.system is
 
@@ -21,6 +22,14 @@ package ecs.system is
 
     type Collision_T is new System_T with null record;
     procedure Execute (Self : Collision_T;
+                       Dt   : Duration;
+                       E    : access Entity_T'Class;
+                       ES   : Entities_T := Entities_T'(1 .. 0 => null));
+
+    type Renderer_T is new System_T with record
+      Image : Renderer.Image(600, 600);
+    end record;
+    procedure Execute (Self : Renderer_T;
                        Dt   : Duration;
                        E    : access Entity_T'Class;
                        ES   : Entities_T := Entities_T'(1 .. 0 => null));
