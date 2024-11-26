@@ -6,7 +6,7 @@ project Psu_Ada_Gameengine is
    for Object_Dir use "obj/" & Psu_Ada_Gameengine_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
-   for Main use ("psu_ada_gameengine.adb", "ecs_tests.adb", "window_tests.adb");
+   for Main use ("psu_ada_gameengine.adb", "ecs_tests.adb", "ecs_mover_test.adb", "window_tests.adb");
    Link_Switches := ("");
    
    case psu_ada_gameengine_config.Alire_Host_Os is
