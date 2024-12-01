@@ -1,4 +1,5 @@
 with Ada.Tags; use Ada.Tags;
+with ECS.Vec2;
 
 package ECS.Component is 
 
@@ -7,8 +8,8 @@ package ECS.Component is
     type Components_T is array (Natural range <>) of Component_Access;
 
     type Transform_T is new Component_T with record
-        X, Y : Float;
-        VX,VY : Float;
+        Position : ECS.Vec2.Vec2;
+        Velocity : ECS.Vec2.Vec2;
         Rotation : Float;
     end record;
 
@@ -24,11 +25,13 @@ package ECS.Component is
     end record;
 
     type Collision_Params_T is new Component_T with record
-      Collision_Enabled : Boolean;
-      Destroy_On_Collision : Boolean;
-      -- Change in velocity if Destroy_On_Collision is false
-      Delta_VX : Float; 
-      Delta_VY : Float; 
+        Collision_Enabled : Boolean;
+        Collision_Occurred : Boolean := False;
+        Destroy_On_Collision : Boolean := False;
+        Left_Bound : Boolean;
+        Right_Bound : Boolean;
+        Top_Bound : Boolean;
+        Bottom_Bound : Boolean;
     end record;
 
     

@@ -2,6 +2,7 @@ with ecs.component; use ecs.component;
 with ecs.entity; use ecs.entity;
 with Ada.Tags; use Ada.Tags;
 with Ada.Text_IO; use Ada.Text_IO;
+with ECS.Vec2; use ECS.Vec2;
 
 package body ECS.System is
 
@@ -14,9 +15,7 @@ package body ECS.System is
             Trans       : Component_Access   :=    Entity.all.Get_Component (Transform_T'Tag);
             Rigidbodies : Component_Access   :=    Entity.all.Get_Component (Rigidbody_T'Tag);
             AABB        : Component_Access   :=    Entity.all.Get_Component (AABB_T'Tag);
-            DeltaY      : Float              :=    Float(Dt) * (-9.8);
-            -- just for testing
-            DeltaX      : Float              :=    2.0;
+            
             begin
                if Trans = null then
                   Put_Line ("No Transform");
@@ -35,18 +34,18 @@ package body ECS.System is
                T renames Transform_T (Trans.all);
                R renames Rigidbody_T (Rigidbodies.all);
                B renames AABB_T(AABB.all);
-
+               Velocity_Scaled : ECS.Vec2.Vec2 := New_Vec2(X_In => T.Velocity.X, Y_In => T.Velocity.Y);
                begin
-                  Put_Line ("Moving " & Entity.all.Id & " from: " & T.X'Image & ", " & T.Y'Image & ", " & T.Rotation'Image);
+                  Scale(Velocity_Scaled, Float(Dt));
+                  --Put_Line ("Moving " & Entity.all.Id & " from: " & T.Position.X'Image & ", " & T.Position.Y'Image & ", " & T.Rotation'Image);
                   -- Update the entity position
-                  T.X := T.X + T.VX;
-                  T.Y := T.Y + T.VY;
+                  Add(T.Position,Velocity_Scaled);
                   -- Sync bounding box
-                  B.Left := B.Left + T.VX;
-                  B.Right := B.Right + T.VX;
-                  B.Top := B.Top + T.VY;
-                  B.Bottom := B.Bottom + T.VY;
-                  Put_Line ("Moved " & Entity.all.Id & " to: " & T.X'Image & ", " & T.Y'Image & ", " & T.Rotation'Image);
+                  B.Left := B.Left + Velocity_Scaled.X;
+                  B.Right := B.Right + Velocity_Scaled.X;
+                  B.Top := B.Top + Velocity_Scaled.Y;
+                  B.Bottom := B.Bottom + Velocity_Scaled.Y;
+                  --Put_Line ("Moved " & Entity.all.Id & " to: " & T.Position.X'Image & ", " & T.Position.Y'Image & ", " & T.Rotation'Image);
                end;
             end;
       end loop;   
@@ -86,14 +85,28 @@ package body ECS.System is
          begin
             for Index2 in Index1 + 1 .. Length - 1 loop
                declare
-                  E_2 : Entity_Access := Manager.all.Entities.Element(Index2);          
+               -- TODO: Add in null checking
+                  E_2 : Entity_Access := Manager.all.Entities.Element(Index2);
+                  E1_Collision_Params : Component_Access := E_1.all.Get_Component(Collision_Params_T'Tag);
+                  E1_CP renames Collision_Params_T (E1_Collision_Params.all);  
+                  E2_Collision_Params : Component_Access := E_2.all.Get_Component(Collision_Params_T'Tag);
+                  E2_CP renames Collision_Params_T (E2_Collision_Params.all);         
                begin
-                  Put_Line("Checking collision between " & E_1.all.Id & " and " & E_2.all.Id);
                   if IsColliding(E_1,E_2) then
-                     Put_Line("Entity " & E_1.all.Id & " is colliding with Entity " & E_2.all.Id);
+                     if E1_CP.Collision_Enabled and E2_CP.Collision_Enabled then
+                        E1_CP.Collision_Occurred := True;
+                        E2_CP.Collision_Occurred := True;
+                        -- Flag the entity to be removed if set to be destroyed on collision
+                        E_1.all.Destroyed := E1_CP.Destroy_On_Collision;
+                        E_2.all.Destroyed := E2_CP.Destroy_On_Collision;
+                     end if;
+                  else
+                     E1_CP.Collision_Occurred := False;
+                     E2_CP.Collision_Occurred := False;
                   end if;
                end;
             end loop;
+            -- TODO: Check for screen bound collisions here
          end;
       end loop;
    end Execute;
