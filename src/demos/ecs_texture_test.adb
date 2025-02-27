@@ -28,7 +28,7 @@ with Input_Callbacks; use Input_Callbacks;
 -- Ada C Interfacing
 with Interfaces.C;
 
-procedure Presentation_Demo_4 is
+procedure ecs_texture_test is
 
 Player_Sprite_File_Name  : constant String :=
 "D:\Hold\SWENG480\PSU.Ada.GameEngine.Clean\Data\char.qoi";
@@ -130,7 +130,7 @@ begin
          Has_Msg      := Get_Message (Message, System.Null_Address, 0, 0);
          -- Process emitted events here - for debug purposes
          Manager.all.Update;
-         Clear_Screen (Buffer.all, Graphics.Color.Blue, Width, Height);
+         --  Clear_Screen (Buffer.all, Graphics.Color.Blue, Width, Height);
          Draw_Image_To_Buffer (Buffer.all, Background_Sprite_Texture.Data, 0, 0, Integer(Background_Sprite_Texture.Desc.Width), Integer(Background_Sprite_Texture.Desc.Height), Width, Height);
          UserInput.Execute (To_Duration (Elapsed_Time), Manager);
          Collision.Execute (To_Duration (Elapsed_Time), Manager);
@@ -140,4 +140,4 @@ begin
       end loop;
 
     end;
-end Presentation_Demo_4;
+end ecs_texture_test;

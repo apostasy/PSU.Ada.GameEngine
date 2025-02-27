@@ -16,7 +16,7 @@ with Graphics.Color;        use Graphics.Color;
 -- Ada C Interfacing
 with Interfaces.C;
 
-procedure Presentation_Demo_3 is
+procedure QOI_Image_Test is
 
 Player_Sprite_File_Name  : constant String :=
 "D:\Hold\SWENG480\PSU.Ada.GameEngine.Clean\Data\char.qoi";
@@ -62,4 +62,4 @@ begin
       end loop;
 
     end;
-end Presentation_Demo_3;
+end QOI_Image_Test;
