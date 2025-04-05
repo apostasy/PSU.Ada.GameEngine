@@ -16,6 +16,12 @@ package body ecs.entity_manager is
     return Entity;
   end AddEntity;
 
+  procedure AddEntity (Manager : in out Entity_Manager_T; Entity : Entity_Access) is
+  begin
+    Manager.ToBeAdded.Append(Entity);
+    Entity_Count := Entity_Count + 1;
+  end AddEntity;
+
   procedure Update(Manager : in out Entity_Manager_T) is
   -- Copy newly added Entities to the Entity list
   begin

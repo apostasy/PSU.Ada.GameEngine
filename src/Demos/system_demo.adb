@@ -154,7 +154,7 @@ begin
             Draw_Buffer (Buffer.all'Address);
          else
             UserInput.Execute (Elapsed_Time, Manager);
-            --EnemySpawner.Execute (Elapsed_Time, Manager);
+            EnemySpawner.Execute (Elapsed_Time, Manager);
             Collision.Execute (Elapsed_Time, Manager);
             Mover.Execute (Elapsed_Time, Manager);
             Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height), 0,0, Width, Height,Natural(Background_Image.Desc.Width));

@@ -39,7 +39,7 @@ procedure ECS_Component_Texture_Test is
   use IC;
   Width                 : Integer                 := 640;
   Height                : Integer                 := 360;
-  Title : Unbounded_String        := To_Unbounded_String ("Game Window");
+  Title : Unbounded_String        := To_Unbounded_String ("Image Demo");
   GameWindow            : Window_Access;
   Buffer                : Win32.Byte_Array_Access :=
    new Win32.Byte_Array (0 .. Width * Height * 4);
@@ -50,7 +50,9 @@ procedure ECS_Component_Texture_Test is
   -- Entity Manager and Entities
   Manager   : Manager_Access                                  :=
    new Entity_Manager_T'
-    (Entities  => Entity_List.Empty_Vector,
+    (
+      ID => To_Unbounded_String ("Scene1"),
+      Entities  => Entity_List.Empty_Vector,
      ToBeAdded => Entity_List.Empty_Vector);
   Event_Mgr : ecs.Event_Manager.Platform_Event_Handler_Access :=
    new Platform_Event_Handler;
@@ -81,8 +83,8 @@ Collision_Params_P : Component_Access := new Collision_Params_T'(
 C_P         : Collision_Params_T renames Collision_Params_T(Collision_Params_P.all);
 
 Shape_P     : Component_Access := new Quad_T'(
-   Width => 36.0,
-   Height => 54.0,
+   Width => 50.0,
+   Height => 50.0,
    C => (R=> 255, G => 255, B => 0, A => 255)
 );
 
@@ -92,13 +94,8 @@ Shape_P     : Component_Access := new Quad_T'(
 
   File       : Ada.Streams.Stream_IO.File_Type;
   Last       : Ada.Streams.Stream_Element_Offset;
-  bkgrd  : constant String := "C:\ProgramData\Ada\PSU.Ada.GameEngine.Fork\Data\terrace_360.qoi";
-  player_texture : constant String := "C:\ProgramData\Ada\PSU.Ada.GameEngine.Fork\Data\char.qoi";
-
-  -- from the example in the QOI package
-  -- https://github.com/Fabien-Chouteau/qoi-spark/blob/main/tests/src/tests.adb
-
-
+  bkgrd  : constant String := "D:\Hold\SWENG480\PSU.Ada.GameEngine.Clean\Data\terrace_360.qoi";
+  player_texture : constant String := "D:\Hold\SWENG480\PSU.Ada.GameEngine.Clean\Data\AdobeStock_539609028_50x50.qoi";
 
 begin
 
@@ -150,7 +147,7 @@ begin
       -- Process emitted events here - for debug purposes
       Manager.all.Update;
       --Clear_Screen (Buffer.all, Graphics.Color.Blue, Width, Height);
-      Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height),0,0, Width, Height, Natural(Background_Image.Desc.Width));
+      --  Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height),0,0, Width, Height, Natural(Background_Image.Desc.Width));
       UserInput.Execute (To_Duration (Elapsed_Time), Manager);
       Collision.Execute (To_Duration (Elapsed_Time), Manager);
       Mover.Execute (To_Duration (Elapsed_Time), Manager);
