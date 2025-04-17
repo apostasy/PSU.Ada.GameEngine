@@ -27,6 +27,7 @@ package ECS.Component is
    type Rigidbody_T is new Component_T with record
       Mass : Float;
    end record;
+   
     -- Axis aligned bounding box for collision detection between objects
    type AABB_T is new Component_T with record
       Left   : Float;

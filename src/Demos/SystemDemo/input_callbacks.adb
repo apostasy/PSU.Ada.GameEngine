@@ -264,4 +264,21 @@ package body Input_Callbacks is
       Put_Line ("Left mouse released at "& ECS.MousePos.CurrentPos'Image);
    end L_Button_Up;
 
+   procedure Mouse_Move(Manager : access Entity_Manager_T'Class; Dt : Duration; KeyDown : Boolean) is
+      Trans : Component_Access;
+      Player_Entity : Entity_Access;
+   begin
+      Player_Entity := Manager.GetEntity("Playr");
+      if Player_Entity = null then
+         Put_Line ("Player entity not found");
+         return;
+      end if;
+      Trans := Player_Entity.all.Get_Component (Transform_T'Tag);
+      declare
+         T renames Transform_T(Trans.all);
+      begin
+         T.Position.X := ECS.MousePos.CurrentPos.X;
+      end; 
+   end Mouse_Move;
+
 end Input_Callbacks;

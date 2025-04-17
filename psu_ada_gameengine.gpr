@@ -2,13 +2,15 @@ with "config/psu_ada_gameengine_config.gpr";
 project Psu_Ada_Gameengine is
    
    for Languages use ("ada", "c");
-   for Source_Dirs use ("src/", "src/tests/", "config/", "src/win32", "src/Systems", "src/Graphics", "src/Demos", "src/Math");
+   for Source_Dirs use ("src/", "src/tests/", "config/", "src/win32", "src/Systems", "src/Graphics", "src/Demos", "src/Math"
+                        ,"src/Demos/Arkanoid", "src/Demos/SystemDemo");
    for Object_Dir use "obj/" & Psu_Ada_Gameengine_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
    for Main use ("ecs_tests.adb", "ecs_systems_tests.adb"
                   , "ecs_integration_test_one.adb" , "ecs_window_system_integration_test.adb", "ecs_test_text.adb"
-                  , "ecs_component_texture_test.adb", "ecs_component_texture_transparency_test.adb", "system_demo.adb","unit_tests.adb");
+                  , "ecs_component_texture_test.adb", "ecs_component_texture_transparency_test.adb", "system_demo.adb","unit_tests.adb"
+                  , "arkanoid.adb");
 
    package Compiler is
       --for Default_Switches ("Ada") use Psu_Ada_Gameengine_Config.Ada_Compiler_Switches & ( "-gnat2022" );
