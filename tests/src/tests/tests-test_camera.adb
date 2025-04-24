@@ -32,7 +32,7 @@ with ECS.System.Enemy_Spawner;use ECS.System.Enemy_Spawner;
 package body Tests.Test_Camera is
 
    Width       : Integer                  := 540;
-   Height      : Integer                  := 360;
+   Height      : Integer                  := 450;
 
    Title       : Unbounded_String         := To_Unbounded_String("Game Window");
    GameWindow  : Window_Access;
@@ -45,15 +45,98 @@ package body Tests.Test_Camera is
    -- Entity Manager and Entities
    Manager               : Manager_Access           := new Entity_Manager_T' (Entity_List.Empty_Vector,Entity_List.Empty_Vector);
    Event_Mgr             : Platform_Event_Handler_Access := new Platform_Event_Handler;
-   Player                : Entity_Access            := Manager.all.AddEntity ("Playr");
 
    -- Systems
    Render             : Render_T         := (Width, Height, Buffer);
    Animation          : Animation_T;
    EnemySpawner       : Enemy_Spawn_T;
    Mover              : Mover_T          := (Width, Height);
-   UserInput          : User_Input_T     := (Player, Event_Mgr, False, True);
    Collision          : Collision_T      := (Width, Height);
+
+   -- camera
+
+   --  Camera_E : Entity_Access := Manager.all.AddEntity ("Cam__");
+   --  Camera_Transform : Component_Access := new Transform_T'(
+   --     Position => (X => 0.0, Y => 0.0),
+   --     Velocity => (X => 0.0, Y => 0.0),
+   --     Rotation => 0.0
+   --  );
+   Camera_P : Component_Access := new Camera_Component_T'(
+      Position => (X => 0.0, Y => 0.0),
+      Width => Width,
+      Height => Height,
+      Zoom => 1.0,
+      Buffer => Buffer
+   );
+   Camera_T : Camera_Component_T renames Camera_Component_T(Camera_P.all);
+
+   Walk_P : Single_Animation_Access := new Single_Animation_T'(80,0,0.1,0.0,14,27,14,27,0,8);
+   Idle_P : Single_Animation_Access := new Single_Animation_T'(80,0,0.1,0.0,21,27,21,27,0,6);
+
+   Anim_Comp : constant Animation_Component_T := (
+      Animations => (others => null), 
+      Textures => (others => null),
+      Current => Idle
+   );
+
+   Animations_P : Component_Access := new Animation_Component_T'(Anim_Comp);
+
+   Walk_Texture_P : Texture_Access;
+   Idle_Texture_P : Texture_Access;
+
+   player_walk : constant String := "..\Data\Walk-S.qoi";
+   player_idle : constant String := "..\Data\Idle-S.qoi";
+
+   level_1_background : constant String := "..\Data\Fighter Backgroun 1.qoi";
+   level_2_background : constant String := "..\Data\Fighter Backgroun 2.qoi";
+
+   --  Level_1                 : Entity_Access            := Manager.all.AddEntity ("Lvl_1");
+   --  Level_1_Transform         : Component_Access := new Transform_T'(Position => (X => -100.0, Y => 0.0), Velocity => (X => 0.0, Y => 0.0), Rotation => 0.0);
+   --  Level_1_T                 : Transform_T renames Transform_T(Level_1_Transform.all);
+   --  Level_1_Shape             : Component_Access := new Quad_T'(
+   --     Width => 4500.0,
+   --     Height => 450.0,
+   --     C => (R=> 0, G => 0, B => 0, A => 255)
+   --  );
+
+   Level_1_Texture : Component_Access;
+
+   --  Level_2                 : Entity_Access            := Manager.all.AddEntity ("Lvl_2");
+   --  Level_2_Transform         : Component_Access := new Transform_T'(Position => (X => -100.0, Y => 0.0), Velocity => (X => 0.0, Y => 0.0), Rotation => 0.0);
+   --  Level_2_T                 : Transform_T renames Transform_T(Level_2_Transform.all);
+   --  Level_2_Shape             : Component_Access := new Quad_T'(
+   --     Width => 4500.0,
+   --     Height => 450.0,
+   --     C => (R=> 0, G => 0, B => 0, A => 255)
+   --  );
+
+   --  Level_2_Texture : Component_Access;
+
+   Tests             : Entity_Access            := Manager.all.AddEntity ("Tests");
+
+   Transform_Test : Component_Access := new Transform_T'(Position => (X => -100.0, Y => 0.0), Velocity => (X => 0.0, Y => 0.0), Rotation => 0.0);
+   T_Test : Transform_T renames Transform_T(Transform_Test.all);
+   Rigidbody_Test : Component_Access := new Rigidbody_T'(Mass => 0.0);
+   AABB_Test      : Component_Access := new AABB_T'(
+      Left => T_Test.Position.X, 
+      Bottom => T_Test.Position.Y, 
+      Right => T_Test.Position.X, 
+      Top => T_Test.Position.Y);
+   Collision_Params_Test : Component_Access := new Collision_Params_T'(
+      Collision_Enabled => True,
+      Collision_Occurred => False,
+      Destroy_On_Collision => True,
+      Wall_Collision => False
+   );
+   C_Test         : Collision_Params_T renames Collision_Params_T(Collision_Params_Test.all);
+   Shape_Test     : Component_Access := new Quad_T'(
+      Width => 36.0,
+      Height => 53.0,
+      C => (R=> 0, G => 0, B => 0, A => 255)
+   );
+   
+   Player             : Entity_Access            := Manager.all.AddEntity ("Playr");
+   UserInput          : User_Input_T     := (Player, Event_Mgr, False, True);
 
    -- player components
    Transform_P : Component_Access := new Transform_T'(Position => (X => 50.0, Y => 150.0), Velocity => (X => 0.0, Y => 0.0), Rotation => 0.0);
@@ -77,54 +160,6 @@ package body Tests.Test_Camera is
       C => (R=> 0, G => 0, B => 0, A => 255)
    );
 
-   Walk_P : Single_Animation_Access := new Single_Animation_T'(80,0,0.1,0.0,14,27,14,27,0,8);
-   Idle_P : Single_Animation_Access := new Single_Animation_T'(80,0,0.1,0.0,21,27,21,27,0,6);
-
-   Anim_Comp : constant Animation_Component_T := (
-      Animations => (others => null), 
-      Textures => (others => null),
-      Current => Idle
-   );
-
-   Animations_P : Component_Access := new Animation_Component_T'(Anim_Comp);
-
-   Walk_Texture_P : Texture_Access;
-   Idle_Texture_P : Texture_Access;
-
-   player_walk : constant String := "..\Data\Walk-S.qoi";
-   player_idle : constant String := "..\Data\Idle-S.qoi";
-
-   level_1_background : constant String := "..\Data\Fighter Background 1.qoi";
-   level_2_background : constant String := "..\Data\Fighter Background 2.qoi";
-
-   Level_1                 : Entity_Access            := Manager.all.AddEntity ("Level 1");
-   Level_1_Transform         : Component_Access := new Transform_T'(Position => (X => 0.0, Y => 0.0), Velocity => (X => 0.0, Y => 0.0), Rotation => 0.0);
-   Level_1_T                 : Transform_T renames Transform_T(Level_1_Transform.all);
-   Level_1_Shape             : Component_Access := new Quad_T'(
-      Width => 4500.0,
-      Height => 300.0,
-      C => (R=> 0, G => 0, B => 0, A => 255)
-   );
-
-   Level_2                 : Entity_Access            := Manager.all.AddEntity ("Level 2");
-   Level_2_Transform         : Component_Access := new Transform_T'(Position => (X => 0.0, Y => 0.0), Velocity => (X => 0.0, Y => 0.0), Rotation => 0.0);
-   Level_2_T                 : Transform_T renames Transform_T(Level_2_Transform.all);
-   Level_2_Shape             : Component_Access := new Quad_T'(
-      Width => 4500.0,
-      Height => 300.0,
-      C => (R=> 0, G => 0, B => 0, A => 255)
-   );
-
-
-   Camera_P : Component_Access := new Camera_Component_T'(
-      Position => (X => 0.0, Y => 0.0),
-      Width => Width,
-      Height => Height,
-      Zoom => 1.0,
-      Buffer => Buffer
-   );
-   Camera_T : Camera_Component_T renames Camera_Component_T(Camera_P.all);
-
 procedure Test is
 
  begin
@@ -143,6 +178,15 @@ procedure Test is
    Register_Key_Callback (16#53#, S_Key'Access);
    Register_Key_Callback (16#44#, D_Key'Access);
 
+   Tests.all.Add_Component (Transform_Test);
+   Tests.all.Add_Component (Rigidbody_Test);
+   Tests.all.Add_Component (AABB_Test);
+   Tests.all.Add_Component (Collision_Params_Test);
+   Tests.all.Add_Component (Shape_Test);
+
+
+
+
    -- Add entity components
    Player.all.Add_Component (Transform_P);
    Player.all.Add_Component (Rigidbody_P);
@@ -152,6 +196,13 @@ procedure Test is
    Player.all.Add_Component (Animations_P);
 
    Player.all.Add_Component (Camera_P);
+   --  Camera_E.all.Add_Component (Camera_Transform);
+
+   --  Level_1.all.Add_Component (Level_1_Transform);
+   --  Level_1.all.Add_Component (Level_1_Shape);
+
+   --  Level_2.all.Add_Component (Level_2_Transform);
+   --  Level_2.all.Add_Component (Level_2_Shape);
 
    Start_Time := Clock;
    Stop_Time := Clock;
@@ -173,6 +224,15 @@ procedure Test is
       
       Anims_P.Textures(Walk) := Walk_Texture_P;
       Anims_P.Textures(Idle) := Idle_Texture_P;
+
+      Texture_Image        := Load_QOI(level_1_background);
+      Level_1_Texture := new Texture_T'(Integer(Texture_Image.Desc.Width),Integer(Texture_Image.Desc.Height),Texture_Image.Data);
+      Tests.all.Add_Component (Level_1_Texture);
+
+      Texture_Image        := Load_QOI(level_2_background);
+      --  Level_2_Texture := new Texture_T'(Integer(Texture_Image.Desc.Width),Integer(Texture_Image.Desc.Height),Texture_Image.Data);
+      --  Level_2.all.Add_Component (Level_2_Texture);
+      
 
       while Has_Msg loop      
 

@@ -151,13 +151,13 @@ package body ECS.System.Render is
 
       begin
 
-         if Use_Camera then 
-            Entity_Is_Visible := Is_Visible (Transform_T(Transform.all).Position,
-                                                      Float(Quad_T(Quad.all).Width),
-                                                      Float(Quad_T(Quad.all).Height),
-                                                      Camera_Component_T(Camera.all));
+         --  if Use_Camera then 
+         --     Entity_Is_Visible := Is_Visible (Transform_T(Transform.all).Position,
+         --                                               Float(Quad_T(Quad.all).Width),
+         --                                               Float(Quad_T(Quad.all).Height),
+         --                                               Camera_Component_T(Camera.all));
 
-         end if;
+         --  end if;
 
          -- for debugging and demo, this is off
          --  if Use_Camera and not (Entity_Is_Visible) then

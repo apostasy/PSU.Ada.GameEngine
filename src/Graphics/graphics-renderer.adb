@@ -345,18 +345,19 @@ end Draw_String;
                declare
                   Img_Index : Natural := (I * Width + J) * 4 + 1;
                   -- need to offset the buffer index by the x and y values            
-                  Buffer_Index : Natural := ((Y mod Screen_Height + I) * Screen_Width + (X mod Screen_Width + J) ) * 4;
                   Buffer_X : Integer := (X + J);
                   Buffer_Y : Integer := (Y + I);
+                  Buffer_Index : Integer := (Buffer_Y * Screen_Width + Buffer_X ) * 4;
 
                   New_Red_Value, New_Green_Value, New_Blue_Value, New_Alpha_Value : Float;
                   Original_Red_Value, Original_Green_Value, Original_Blue_Value : Float;
                   Blended_Red, Blended_Green, Blended_Blue : Float;
 
                begin
-                  if X + J < Screen_Width and Y + I < Screen_Height then
+                  if Buffer_X >= 0 and Buffer_X < Screen_Width and Buffer_Y >= 0 and Buffer_Y < Screen_Height then
 
                      --  Put_Line("Buffer Index: " & Buffer_Index'Image & " Img Index: " & Img_Index'Image);
+                     --  Put_Line("Buffer X: " & Buffer_X'Image & " Buffer Y: " & Buffer_Y'Image);
 
                      Original_Red_Value := Float(buffer(Buffer_Index+2));
                      Original_Green_Value := Float(buffer(Buffer_Index+1));

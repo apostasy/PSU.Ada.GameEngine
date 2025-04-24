@@ -117,7 +117,7 @@ package body Input_Callbacks is
          B_Trans := new Transform_T'((StartPosX + 22.0,T.Position.Y),(400.0,0.0),0.0);
          B_RBody := new Rigidbody_T'(Mass => 0.0);
          B_Shape := new Quad_T'(22.0,22.0,(255,255,255,255));
-         B_ColPar := new Collision_Params_T'(True,False,True,True);
+         B_ColPar := new Collision_Params_T'(True,False,False,True);
          declare
             BT renames Transform_T(B_Trans.all);
             BS renames Quad_T(B_Shape.all);
