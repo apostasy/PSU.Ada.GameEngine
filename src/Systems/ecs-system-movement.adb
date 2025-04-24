@@ -18,7 +18,7 @@ package body ECS.System.Movement is
                   return;
                end if;
                if Rigidbodies = null then
-                  Put_Line ("No Rigidbodies on entity " & Entity.all.Id);
+                  --  Put_Line ("No Rigidbodies on entity " & Entity.all.Id);
                   return;
                end if;
                if AABB = null then 

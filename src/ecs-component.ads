@@ -4,6 +4,7 @@ with GameMath;
 with Graphics.Color; use Graphics.Color;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Graphics.Renderer; use Graphics.Renderer;
+with Win32; use Win32;
 
 package ECS.Component is 
 
@@ -89,6 +90,14 @@ package ECS.Component is
       Animations     : Animation_Map   := (others => null);
       Textures       : Texture_Map     := (others => null);
       Current        : Entity_State    := Idle; 
+   end record;
+
+   type Camera_Component_T is new Component_T with record
+      Position : GameMath.Vec2;
+      Zoom     : Float;
+      Width    : Integer;
+      Height   : Integer;
+      Buffer   : Win32.Byte_Array_Access;
    end record;
 
 end ECS.Component;

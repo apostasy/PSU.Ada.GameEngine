@@ -37,8 +37,8 @@ procedure Game is
 
    package IC renames Interfaces.C;
    use IC;
-   Width                 : Integer                 := 640;
-   Height                : Integer                 := 480;
+   Width                 : Integer                 := 250;
+   Height                : Integer                 := 250;
    Title                 : Unbounded_String        := To_Unbounded_String ("Game Window");
    GameWindow            : Window_Access;
    Buffer                : Win32.Byte_Array_Access := new Win32.Byte_Array (0 .. Width * Height * 4);
@@ -210,8 +210,8 @@ begin
       Manager.all.Update;
 
       -- background sprites
-      Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height), 0,0, Width, Height,Natural(Background_Image.Desc.Width));
-      Draw_Image_To_Buffer (Buffer.all, Ground_Image.Data, 0, (Height - Integer(Ground_Image.Desc.Height)), Integer(Ground_Image.Desc.Width), Integer(Ground_Image.Desc.Height), 0,0, Width, Height,Natural(Ground_Image.Desc.Width));
+      --  Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height), 0,0, Width, Height,Natural(Background_Image.Desc.Width));
+      --  Draw_Image_To_Buffer (Buffer.all, Ground_Image.Data, 0, (Height - Integer(Ground_Image.Desc.Height)), Integer(Ground_Image.Desc.Width), Integer(Ground_Image.Desc.Height), 0,0, Width, Height,Natural(Ground_Image.Desc.Width));
 
       Render.Execute (Elapsed_Time, Manager);
       Animation.Execute(Elapsed_Time, Manager);

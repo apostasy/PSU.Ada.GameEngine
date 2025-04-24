@@ -23,6 +23,9 @@ package Graphics.Renderer is
    procedure set_pixel_color
      (img : in out Byte_Array; x : Integer; y : Integer; c : Graphics.Color.Color; Screen_Width : Natural; Screen_Height : Natural);
 
+   procedure set_pixel_color
+     (img : in out Byte_Array; x : Integer; y : Integer; R,G,B,A : Float; Screen_Width : Natural; Screen_Height : Natural);
+
    function Get_Pixel_Color (img : in out Byte_Array; x,y : Integer; Screen_Width, Screen_Height : Natural) return Graphics.Color.Color;
 
    procedure line
