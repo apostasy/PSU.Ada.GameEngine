@@ -43,7 +43,7 @@ package body Tests.Test_Camera is
    Elapsed_Time: Duration;
 
    -- Entity Manager and Entities
-   Manager               : Manager_Access           := new Entity_Manager_T' (Entity_List.Empty_Vector,Entity_List.Empty_Vector);
+   Manager               : Manager_Access           := new Entity_Manager_T' (To_Unbounded_String ("Test"), Entity_List.Empty_Vector,Entity_List.Empty_Vector);
    Event_Mgr             : Platform_Event_Handler_Access := new Platform_Event_Handler;
 
    -- Systems

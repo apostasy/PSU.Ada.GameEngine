@@ -21,7 +21,7 @@ package body Input_Callbacks is
   end record;
 
 
-  icon : constant String := "C:\ProgramData\Ada\PSU.Ada.GameEngine.Fork\Data\skull.qoi";
+  icon : constant String := "D:\Hold\SWENG480\PSU.Ada.GameEngine.Clean\Data\skull.qoi";
   Texture_Image : Input_Data2;
 
   function Load_QOI (Filename : String) return Input_Data2 is
@@ -110,6 +110,7 @@ package body Input_Callbacks is
          Texture_B   : Component_Access;
         
       begin
+         Put_Line ("fire");
          Texture_Image := Load_QOI(icon);
          Texture_B := new Texture_T'
             (Width => Integer(Texture_Image.Desc.Width), Height => Integer(Texture_Image.Desc.Height), Data => Texture_Image.Data);
@@ -137,9 +138,13 @@ package body Input_Callbacks is
 
 
    procedure Space_Key (Manager : access Entity_Manager_T'Class; Dt : Duration; KeyDown: Boolean) is
-      Cooldown   : constant Duration := 0.02;
+      Cooldown   : constant Duration := 0.0;
    begin
+      Put_Line ("Space pressed - Keydown: " & Boolean'Image(KeyDown));
+      Put_Line("Last Fired: " & Duration'Image(Last_Fired));
+      Put_Line ("Cooldown: " & Duration'Image(Cooldown));
       if KeyDown then
+
          Last_Fired := Last_Fired + Dt;
          if Last_Fired >= Cooldown then
             Spawn_Bullet(Manager);

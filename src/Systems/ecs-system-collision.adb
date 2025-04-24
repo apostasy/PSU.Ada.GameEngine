@@ -59,7 +59,18 @@ package body ECS.System.Collision is
                   E2_CP renames Collision_Params_T (E2_Collision_Params.all);         
                begin
                   if Entity_Collision(E_1,E_2) then
-                     if E1_CP.Collision_Enabled and E2_CP.Collision_Enabled then
+                     if E1_CP.Collision_Enabled and E2_CP.Collision_Enabled then                        
+
+                        if (E_1.all.Id = "Playr" and E_2.all.Id = "WarpZ") then
+                           E2_CP.Collision_Occurred := True;
+                           return;
+                           --  goto Continue;
+                        elsif (E_1.all.Id = "WarpZ" and E_2.all.Id = "Playr") then
+                           E1_CP.Collision_Occurred := True;
+                           return;
+                           --  goto Continue;
+                        end if;
+
                         E1_CP.Collision_Occurred := True;
                         E2_CP.Collision_Occurred := True;
                         -- Flag the entity to be removed if set to be destroyed on collision
@@ -70,15 +81,18 @@ package body ECS.System.Collision is
                            Score := Score + 10;
                         end if;
 
-                        if (E_1.all.Id = "Playr" or E_2.all.id = "Playr") then
+                        if ((E_1.all.Id = "Playr" or E_2.all.id = "Playr") and 
+                           (E_1.all.Id = "Enemy" or E_2.all.Id = "Enemy")) then
                            GameOver := True;
                         end if;
+
                      end if;
                   else
                      E1_CP.Collision_Occurred := False;
                      E2_CP.Collision_Occurred := False;
                   end if;
                end;
+               <<Continue>>
             end loop;            
             if E1_CP.Wall_Collision and then Wall_Collision (E_1) then
                if E1_CP.Collision_Enabled then

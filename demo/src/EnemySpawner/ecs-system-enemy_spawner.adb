@@ -7,7 +7,7 @@ package body ECS.System.Enemy_Spawner is
 
    Last_Spawned   : Duration;
    Cooldown   : constant Duration := 2.0;
-   Enemy_Texture : constant String := "Data\Zombie.qoi";
+   Enemy_Texture : constant String := "D:\Hold\SWENG480\PSU.Ada.GameEngine.Clean\Data\Zombie.qoi";
    Texture_Image : QOI_Image_Data := Load_QOI(Enemy_Texture);
    type Vec2_Array is array (0 .. 4) of Vec2;
    Pos_Index : Natural := 0;
@@ -30,7 +30,7 @@ package body ECS.System.Enemy_Spawner is
       Enemy : Entity_Access := Manager.all.AddEntity ("Enemy");
       E_Trans := new Transform_T'(Enemy_Positions(Pos_Index),(-100.0,0.0),0.0);
       E_RBody := new Rigidbody_T'(Mass => 0.0);
-      E_ColPar := new Collision_Params_T'(True,False,True,True);
+      E_ColPar := new Collision_Params_T'(false,False,True,True);
       E_Quad := new Quad_T'(64.0,78.0,(0,0,0,0));
       declare
          BT renames Transform_T(E_Trans.all);
