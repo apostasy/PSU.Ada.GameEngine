@@ -62,7 +62,7 @@ Collision_Params_P : Component_Access := new Collision_Params_T'(
    Collision_Enabled => True,
    Collision_Occurred => False,
    Destroy_On_Collision => True,
-   Wall_Collision => False
+   Prev_Frame_Collision => False
 );
 C_P         : Collision_Params_T renames Collision_Params_T(Collision_Params_P.all);
 
@@ -81,7 +81,7 @@ Collision_Params_E1 : Component_Access := new Collision_Params_T'(
    Collision_Enabled => True,
    Collision_Occurred => False,
    Destroy_On_Collision => True,
-   Wall_Collision => False
+   Prev_Frame_Collision => False
 );
 C_E1 : Collision_Params_T renames Collision_Params_T(Collision_Params_E1.all);
 

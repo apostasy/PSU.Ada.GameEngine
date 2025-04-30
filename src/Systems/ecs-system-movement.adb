@@ -46,19 +46,7 @@ package body ECS.System.Movement is
                   Scale(Velocity_Scaled, Float(Dt));
                   -- Update the entity position while maintaining the position within screen bounds
                   T.Position.X := T.Position.X + Velocity_Scaled.X;
-                  --  if T.Position.X >= Float(Self.Width) then
-                  --     T.Position.X := T.Position.X - Float(Self.Width);
-                  --  elsif T.Position.X < 0.0 then 
-                  --     T.Position.X := T.Position.X + Float(Self.Width);
-                  --  end if;
-
                   T.Position.Y := T.Position.Y + Velocity_Scaled.Y;
-                  --  if T.Position.Y >= Float(Self.Height) then
-                  --     T.Position.Y := T.Position.Y - Float(Self.Height);
-                  --  elsif T.Position.Y < 0.0 then
-                  --     T.Position.Y := T.Position.Y + Float(Self.Height);
-                  --  end if;
-
                   -- Sync bounding box
                   B.Left := T.Position.X;
                   B.Right := T.Position.X + Q.Width;

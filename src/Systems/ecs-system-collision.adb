@@ -1,5 +1,3 @@
-
-
 package body ECS.System.Collision is
    -- Checks all entities for collisions 
    procedure Execute ( Self      : in out Collision_T;
@@ -19,15 +17,31 @@ package body ECS.System.Collision is
             declare
                BB_A : AABB_T renames AABB_T(Bounding_Box_A.all);
                BB_B : AABB_T renames AABB_T(Bounding_Box_B.all);
-               A_Right_Of_B : Boolean := BB_A.Left > BB_B.Right;
-               A_Left_Of_B  : Boolean := BB_A.Right < BB_B.Left;
-               A_Above_B    : Boolean := BB_A.Bottom < BB_B.Top;
-               A_Below_B    : Boolean := BB_A.Top > BB_B.Bottom;
+               A_Right_Of_B : Boolean := BB_A.Left    > BB_B.Right;
+               A_Left_Of_B  : Boolean := BB_A.Right   < BB_B.Left;
+               A_Above_B    : Boolean := BB_A.Bottom  < BB_B.Top;
+               A_Below_B    : Boolean := BB_A.Top     > BB_B.Bottom;
             begin
                return not (A_Right_Of_B or A_Left_Of_B or A_Above_B or A_Below_B);
             end;
          end Entity_Collision;
    begin
+      -- Reset collision flags and preserve previous collision state
+      for Entity of Manager.all.Entities loop
+         declare
+            CP_Access : constant Component_Access := Entity.all.Get_Component(Collision_Params_T'Tag);
+         begin
+            if CP_Access /= null then
+               declare
+                  CP : Collision_Params_T renames Collision_Params_T(CP_Access.all);
+               begin
+                  CP.Prev_Frame_Collision := CP.Collision_Occurred;
+                  CP.Collision_Occurred := False;
+               end;
+            end if;
+         end;
+      end loop;
+
       -- Pairwise checking of entities for collision
       for I in 0 .. Length - 1 loop
          declare
@@ -49,9 +63,6 @@ package body ECS.System.Collision is
                         E_1.all.Destroyed := E1_CP.Destroy_On_Collision;
                         E_2.all.Destroyed := E2_CP.Destroy_On_Collision;
                      end if;
-                  else
-                     E1_CP.Collision_Occurred := False;
-                     E2_CP.Collision_Occurred := False;
                   end if;
                end;
             end loop;            

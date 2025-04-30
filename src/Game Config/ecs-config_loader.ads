@@ -4,7 +4,7 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with ECS.Entity; use ECS.Entity;
 with ECS.Entity_Manager; use ECS.Entity_Manager;
 with ECS.Component; use ECS.Component;
-with ECS.Vec2; use ECS.Vec2;
+with GameMath; use GameMath;
 with Graphics.Color; use Graphics.Color;
 with ECS.System.Movement;     use ECS.System.Movement;
 with ECS.System.Collision;    use ECS.System.Collision;

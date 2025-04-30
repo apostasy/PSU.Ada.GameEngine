@@ -63,7 +63,7 @@ procedure System_Demo is
       Collision_Enabled => True,
       Collision_Occurred => False,
       Destroy_On_Collision => True,
-      Wall_Collision => False
+      Prev_Frame_Collision => False
    );
    C_P         : Collision_Params_T renames Collision_Params_T(Collision_Params_P.all);
    Shape_P     : Component_Access := new Quad_T'(
@@ -147,26 +147,16 @@ begin
          Has_Msg      := Get_Message (Message, System.Null_Address, 0, 0);
          Manager.all.Update;
          -- Game system calls
-         if not Started then
-            Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height), 0,0, Width, Height,Natural(Background_Image.Desc.Width));
-            Draw_String(Buffer.all,255,166,0,0,"PRESS ANY KEY",(255,255,255,255),Width,Height);
-            Draw_Buffer (Buffer.all'Address);
-            UserInput.Execute (Elapsed_Time, Manager);
-         elsif GameOver then
-            Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height), 0,0, Width, Height, Natural(Background_Image.Desc.Width));
-            Draw_String(Buffer.all,280,166,0,0,"GAMEOVER",(255,255,255,255),Width,Height);
-            Draw_Buffer (Buffer.all'Address);
-         else
             UserInput.Execute (Elapsed_Time, Manager);
             --EnemySpawner.Execute (Elapsed_Time, Manager);
             Collision.Execute (Elapsed_Time, Manager);
             Mover.Execute (Elapsed_Time, Manager);
             Draw_Image_To_Buffer (Buffer.all, Background_Image.Data, 0, 0, Integer(Background_Image.Desc.Width), Integer(Background_Image.Desc.Height), 0,0, Width, Height,Natural(Background_Image.Desc.Width));
-            Draw_String(Buffer.all,1,7,0,0,"SCORE:" & Integer'Image(Score),(255,255,255,255),Width,Height);
+            Draw_String(Buffer.all,1,7,0,0,"SCORE:" & Integer'Image(0),(255,255,255,255),Width,Height);
             Render.Execute (Elapsed_Time, Manager);
             Animation.Execute(Elapsed_Time, Manager);
             Draw_Buffer (Buffer.all'Address);
-         end if;
+
       end loop;
   end;
 end System_Demo;

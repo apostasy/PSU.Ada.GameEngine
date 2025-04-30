@@ -40,7 +40,7 @@ package ECS.Component is
       Collision_Enabled    : Boolean;
       Collision_Occurred   : Boolean := False;
       Destroy_On_Collision : Boolean := False;
-      Wall_Collision       : Boolean := False;
+      Prev_Frame_Collision : Boolean := False;
    end record;
 
    type Circle_T is new Component_T with record

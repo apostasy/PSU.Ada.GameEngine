@@ -36,6 +36,14 @@ package body ECS.System.User_Input is
             if Mouse_Callbacks(16#202#) /= null then
                Mouse_Callbacks(16#202#).all(Manager, Dt, False);
             end if;
+         when ECS.Event.R_MouseDown =>
+            if Mouse_Callbacks(16#204#) /= null then
+               Mouse_Callbacks(16#204#).all(Manager, Dt, True);
+            end if;
+         when ECS.Event.R_MouseUp =>
+            if Mouse_Callbacks(16#205#) /= null then
+               Mouse_Callbacks(16#205#).all(Manager, Dt, True);
+            end if;
          when ECS.Event.MouseMove =>
             MousePos.PreviousPos := MousePos.CurrentPos;
             MousePos.CurrentPos := (Float(Event.Data.MouseX), Float(Event.Data.MouseY));
