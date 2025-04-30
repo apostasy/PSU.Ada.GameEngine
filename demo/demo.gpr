@@ -7,7 +7,7 @@ project Demo is
    for Object_Dir use "obj/" & demo_config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
-   for Main use ("game.adb", "demo.adb");
+   for Main use ("tech_demo_scene_manager.adb", "tech_demo_camera.adb");
 
    package Compiler is
       for Default_Switches ("Ada") use ("-Og" ,"-gnat2022", "-gnatX0");

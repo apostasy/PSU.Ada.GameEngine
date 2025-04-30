@@ -30,7 +30,7 @@ package body ECS.System.Enemy_Spawner is
       Enemy : Entity_Access := Manager.all.AddEntity ("Enemy");
       E_Trans := new Transform_T'(Enemy_Positions(Pos_Index),(-100.0,0.0),0.0);
       E_RBody := new Rigidbody_T'(Mass => 0.0);
-      E_ColPar := new Collision_Params_T'(false,False,True,True);
+      E_ColPar := new Collision_Params_T'(True,False,True,True);
       E_Quad := new Quad_T'(64.0,78.0,(0,0,0,0));
       declare
          BT renames Transform_T(E_Trans.all);

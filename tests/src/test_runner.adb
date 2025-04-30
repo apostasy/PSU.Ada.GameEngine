@@ -1,7 +1,9 @@
-with Tests.Test_Camera;
-use Tests;  -- Add this line to make the Test_Camera package directly accessible
+with Tests.Entity_Test;
+with Tests.Vector_Math;
+use Tests;
 
 procedure Test_Runner is
 begin
-   Test_Camera.Test;  -- Now this will work
+   Entity_Test.Test;
+   Vector_Math.Test;
 end Test_Runner;

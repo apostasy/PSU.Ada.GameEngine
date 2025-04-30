@@ -167,7 +167,7 @@ package body Input_Callbacks is
          A renames Animation_Component_T(Animation.all);
       begin
          if KeyDown then
-            T.Velocity.Y := -100.0;
+            T.Velocity.Y := -400.0;
             A.Current := Walk;
          else
             T.Velocity.Y := 0.0;
@@ -193,7 +193,7 @@ package body Input_Callbacks is
          A renames Animation_Component_T(Animation.all);
       begin
          if KeyDown then
-            T.Velocity.X := -100.0;
+            T.Velocity.X := -400.0;
             A.Current := Walk;
          else
             T.Velocity.X := 0.0;
@@ -219,7 +219,7 @@ package body Input_Callbacks is
          A renames Animation_Component_T(Animation.all);
       begin
          if KeyDown then
-            T.Velocity.Y := 100.0;
+            T.Velocity.Y := 400.0;
             A.Current := Walk;
          else
             T.Velocity.Y := 0.0;
@@ -245,7 +245,7 @@ package body Input_Callbacks is
          A renames Animation_Component_T(Animation.all);
       begin
          if KeyDown then
-            T.Velocity.X := 100.0;
+            T.Velocity.X := 400.0;
             A.Current := Walk;
          else
             T.Velocity.X := 0.0;
