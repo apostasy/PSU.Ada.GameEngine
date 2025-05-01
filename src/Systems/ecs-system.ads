@@ -9,6 +9,7 @@ with Graphics.Renderer; use Graphics.Renderer;
 with Ada.Text_IO; use Ada.Text_IO;
 with GameMath; use GameMath;
 with Win32; use Win32;
+with Audio; use Audio;
 
 package ECS.System is
 

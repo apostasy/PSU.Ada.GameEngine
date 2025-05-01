@@ -91,4 +91,9 @@ package ECS.Component is
       Current        : Entity_State    := Idle; 
    end record;
 
+   type Audio_Component_T is new Component_T with record
+      Sound_Triggered   : Boolean            := False;
+      File_Path         : Unbounded_String;
+   end record;
+
 end ECS.Component;
