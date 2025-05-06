@@ -14,7 +14,6 @@ with ECS.Event_Manager;       use ECS.Event_Manager;
 with ECS.System;              use ECS.System;
 with ECS.System.Animation;    use ECS.System.Animation;
 with ECS.System.Collision;    use ECS.System.Collision;
-with ECS.System.Enemy_Spawner;use ECS.System.Enemy_Spawner;
 with ECS.System.Movement;     use ECS.System.Movement;
 with ECS.System.Render;       use ECS.System.Render;
 with ECS.System.User_Input;   use ECS.System.User_Input;
@@ -53,7 +52,6 @@ procedure Arkanoid is
    Collision            : Collision_T      := (Width, Height);
    Render               : Render_T         := (Width, Height, Buffer);
    UserInput            : User_Input_T     := (Player, Event_Mgr, False, True);
-   EnemySpawner         : Enemy_Spawn_T;
    Animation            : Animation_T;
    Arkanoid             : Arkanoid_T;
 

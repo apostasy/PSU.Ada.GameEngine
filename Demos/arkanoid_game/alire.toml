@@ -1,6 +1,6 @@
-name = "demo"
-description = "Demo for Yarlib"
-version = "0.1.0-dev"
+name = "arkanoid"
+description = ""
+version = "0.1.0"
 
 authors = ["Vogel"]
 maintainers = ["Vogel <robtvogel@gmail.com>"]
@@ -9,8 +9,5 @@ licenses = "MIT OR Apache-2.0 WITH LLVM-exception"
 website = ""
 tags = []
 
-[[depends-on]]
-qoi = "*"
-
-[[pins]]
-psu_ada_gameengine = { path='..' }
+[[pins]] 
+psu_ada_gameengine = { path='../..' }

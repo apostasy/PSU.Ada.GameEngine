@@ -1,7 +1,7 @@
 with "config/psu_ada_gameengine_config.gpr";
 project Psu_Ada_Gameengine is
    
-   for Library_Name use "Library_Test";
+   for Library_Name use "psu_ada_gameengine";
    for Library_Version use Project'Library_Name & ".so." & psu_ada_gameengine_config.Crate_Version;
 
    for Languages use ("ada");
