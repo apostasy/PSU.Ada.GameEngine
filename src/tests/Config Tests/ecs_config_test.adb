@@ -60,7 +60,7 @@ procedure ECS_Config_Test is
             Put_Line("    Collision_Enabled: " & Boolean'Image(C.Collision_Enabled));
             Put_Line("    Destroy_On_Collision: " & Boolean'Image(C.Destroy_On_Collision));
             Put_Line("    Collision_Occurred: " & Boolean'Image(C.Collision_Occurred));
-            Put_Line("    Wall_Collision: " & Boolean'Image(C.Wall_Collision));
+            Put_Line("    Prev_Frame_Collision: " & Boolean'Image(C.Prev_Frame_Collision));
          end;
       else
          Put_Line("  No Collision_Params component");
@@ -70,7 +70,7 @@ procedure ECS_Config_Test is
 
 begin
    -- Load configuration from INI file
-   Load_Config(Manager, "C:\Users\zai\Documents\SPRING 2025\milestone project\Active Group Git\PSU.Ada.GameEngine\src\tests\Config Tests\entities.ini");
+   Load_Config(Manager, "src\Tests\Config Tests\entities.ini");
 
    -- Update the manager to process any pending entities
    Manager.Update;

@@ -26,8 +26,10 @@ package body ecs.entity_manager is
   -- Remove destroyed Entities
     for I in reverse Manager.Entities.First_Index .. Manager.Entities.Last_Index loop
       if Manager.Entities(I).all.Destroyed then
-        Free_Entity (Manager.Entities(I));
-        Manager.Entities.Delete(I);
+         Free_Components (Manager.Entities(I).all);
+         Free_Entity (Manager.Entities(I));
+        
+         Manager.Entities.Delete(I);
       end if;
     end loop;
   end Update;

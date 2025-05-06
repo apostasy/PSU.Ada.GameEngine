@@ -24,16 +24,10 @@ package body ECS.System.User_Input is
             if Key_Callbacks(Integer(Event.Data.KeyCode)) /= null then
                Key_Callbacks(Integer(Event.Data.KeyCode)).all(Manager, Dt, True);
             end if;
-            -- This variable can be used in the main game loop to present a start menu. Currently any key pressed will start the game.
-            if not Started then
-               Started := True;
-            end if;
-   
          when ECS.Event.KeyUp =>
             if Key_Callbacks(Integer(Event.Data.KeyCode)) /= null then
                Key_Callbacks(Integer(Event.Data.KeyCode)).all(Manager, Dt, False);
             end if;
-         --Todo: Mouse callbacks
          when ECS.Event.L_MouseDown =>  
             if Mouse_Callbacks(16#201#) /= null then
                Mouse_Callbacks(16#201#).all(Manager, Dt, True);
@@ -42,9 +36,20 @@ package body ECS.System.User_Input is
             if Mouse_Callbacks(16#202#) /= null then
                Mouse_Callbacks(16#202#).all(Manager, Dt, False);
             end if;
+         when ECS.Event.R_MouseDown =>
+            if Mouse_Callbacks(16#204#) /= null then
+               Mouse_Callbacks(16#204#).all(Manager, Dt, True);
+            end if;
+         when ECS.Event.R_MouseUp =>
+            if Mouse_Callbacks(16#205#) /= null then
+               Mouse_Callbacks(16#205#).all(Manager, Dt, True);
+            end if;
          when ECS.Event.MouseMove =>
             MousePos.PreviousPos := MousePos.CurrentPos;
             MousePos.CurrentPos := (Float(Event.Data.MouseX), Float(Event.Data.MouseY));
+            if Mouse_Callbacks(16#200#) /= null then
+               Mouse_Callbacks(16#200#).all(Manager, Dt, False);
+            end if;
          when others =>
             null;
       end case;

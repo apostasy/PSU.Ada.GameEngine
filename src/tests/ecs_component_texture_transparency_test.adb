@@ -87,7 +87,7 @@ procedure ECS_Component_Texture_Transparency_Test is
     Collision_Enabled => False,
     Collision_Occurred => False,
     Destroy_On_Collision => True,
-    Wall_Collision => False
+    Prev_Frame_Collision => False
   );
   
   C_P : Collision_Params_T renames Collision_Params_T(Collision_Params_P.all);
@@ -116,7 +116,7 @@ procedure ECS_Component_Texture_Transparency_Test is
     Collision_Enabled => False,
     Collision_Occurred => False,
     Destroy_On_Collision => True,
-    Wall_Collision => False
+    Prev_Frame_Collision => False
   );
   
   C_S : Collision_Params_T renames Collision_Params_T(Collision_Params_S.all);

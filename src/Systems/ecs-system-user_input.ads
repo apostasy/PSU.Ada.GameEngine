@@ -17,7 +17,7 @@ package ECS.System.User_Input is
    type Input_Callback is access procedure (Manager : access Entity_Manager_T'Class; Dt : Duration; KeyDown : Boolean);
    
    Key_Callbacks : array (0 .. 255) of Input_Callback := (others => null);
-   Mouse_Callbacks : array (16#201# .. 16#202#) of Input_Callback := (others => null);
+   Mouse_Callbacks : array (16#200# .. 16#206#) of Input_Callback := (others => null);
    procedure Register_Key_Callback (Key : Integer; Callback : Input_Callback);
    procedure Register_Mouse_Callback (Key : Integer; Callback : Input_Callback);
    Started : Boolean := False;

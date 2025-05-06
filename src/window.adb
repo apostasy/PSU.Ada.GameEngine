@@ -5,6 +5,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with ECS.Event_Manager; use ECS.Event_Manager;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 with ECS.Event;
+with ECS;
 
 package body Window is
 
@@ -16,11 +17,12 @@ package body Window is
    Manager : aliased ECS.Event_Manager.Platform_Event_Handler;
 
    -- Return the lower 16 bits of LPARAM
-   function LOWORD(value : LPARAM) return WORD is
-      type Temp_Modular is mod 2 ** Standard'Address_Size;
+   function LOWORD(Value : LPARAM) return WORD is
+   use Interfaces;
    begin
-      return WORD(Temp_Modular(value) and 16#FFFF#);
-   end LOWORD;
+      return WORD(Unsigned_32(Value) and 16#FFFF#);
+   end;
+
    -- Return the upper 16 bits of LPARAM
    function HIWORD(value : LPARAM) return WORD is 
    begin
@@ -41,8 +43,9 @@ package body Window is
             null;
          
          when WM_SIZE =>
-            W_Instance.Current_Width := IC.int(LOWORD(L_Param));
-            W_Instance.Current_Height := IC.int(HIWORD(L_Param));
+            W_Instance.Current_Width   := IC.int(LOWORD(L_Param));
+            W_Instance.Current_Height  := IC.int(HIWORD(L_Param));
+            ECS.WindowWidth := Integer(LOWORD(L_Param));
 
          when WM_KEYDOWN =>
          declare
@@ -78,9 +81,8 @@ package body Window is
 
          when WM_LBUTTONDOWN =>
          declare
-            L_Param_U : Interfaces.C.unsigned_long := Interfaces.C.unsigned_long(L_Param);
-            MouseX    : Integer := Integer(L_Param_U and 16#FFFF#);
-            MouseY    : Integer := Integer((L_Param_U / 16#10000#) and 16#FFFF#);
+            MouseX      :  Integer := Integer(IC.int(LOWORD(L_Param)));
+            MouseY      :  Integer := Integer(IC.int(HIWORD(L_Param)));
             MouseEvent : ECS.Event.Event_T :=
               (Source    => 0,
                EventType => ECS.Event.L_MouseDown,
@@ -96,9 +98,8 @@ package body Window is
 
          when WM_LBUTTONUP =>
          declare
-            L_Param_U : Interfaces.C.unsigned_long := Interfaces.C.unsigned_long(L_Param);
-            MouseX    : Integer := Integer(L_Param_U and 16#FFFF#);
-            MouseY    : Integer := Integer((L_Param_U / 16#10000#) and 16#FFFF#);
+            MouseX    : Integer := Integer(IC.int(LOWORD(L_Param)));
+            MouseY    : Integer := Integer(IC.int(HIWORD(L_Param)));
             MouseEvent : ECS.Event.Event_T :=
               (Source    => 0,
                EventType => ECS.Event.L_MouseUp,
@@ -111,14 +112,44 @@ package body Window is
          begin
             Emit_Event(Manager, MouseEvent);
          end;
+                  when WM_RBUTTONDOWN =>
+         declare
+            MouseX      :  Integer := Integer(IC.int(LOWORD(L_Param)));
+            MouseY      :  Integer := Integer(IC.int(HIWORD(L_Param)));
+            MouseEvent : ECS.Event.Event_T :=
+              (Source    => 0,
+               EventType => ECS.Event.R_MouseDown,
+               Data      => (KeyCode    => 0,
+                             MouseX     => MouseX,
+                             MouseY     => MouseY,
+                             W_Width     => 0, 
+                             W_Height    => 0,
+                             Additional => (others => 0)));
+         begin
+            Emit_Event(Manager, MouseEvent);
+         end;
+
+         when WM_RBUTTONUP =>
+         declare
+            MouseX    : Integer := Integer(IC.int(LOWORD(L_Param)));
+            MouseY    : Integer := Integer(IC.int(HIWORD(L_Param)));
+            MouseEvent : ECS.Event.Event_T :=
+              (Source    => 0,
+               EventType => ECS.Event.R_MouseUp,
+               Data      => (KeyCode    => 0,
+                             MouseX     => MouseX,
+                             MouseY     => MouseY,
+                             W_Width     => 0, 
+                             W_Height    => 0,
+                             Additional => (others => 0)));
+         begin
+            Emit_Event(Manager, MouseEvent);
+         end;
          when WM_MOUSEMOVE =>
          declare
-            L_Param_U : Interfaces.C.unsigned_long := Interfaces.C.unsigned_long(L_Param);
-            MouseX    : Integer := Integer(L_Param_U and 16#FFFF#);
-            MouseY    : Integer := Integer((L_Param_U / 16#10000#) and 16#FFFF#);
+            MouseX    : Integer := Integer(IC.int(LOWORD(L_Param)));
+            MouseY    : Integer := Integer(IC.int(HIWORD(L_Param)));
          begin
-            -- Emit the event only if a mouse button is pressed
-            --if (W_Param and (MK_LBUTTON or MK_RBUTTON or MK_MBUTTON)) /= 0 then
                declare
                   MouseEvent : ECS.Event.Event_T :=
                   (Source    => 0,

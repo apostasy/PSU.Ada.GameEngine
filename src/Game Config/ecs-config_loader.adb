@@ -187,8 +187,8 @@ package body ECS.Config_Loader is
                                     Put_Line("Set Collision_Params Destroy_On_Collision to " & Boolean'Image(Collision_Params_T(New_Collision_Params_Comp.all).Destroy_On_Collision));
                                  when "Collision_Occurred" =>
                                     Collision_Params_T(New_Collision_Params_Comp.all).Collision_Occurred := Boolean'Value(Value);
-                                 when "Wall_Collision" =>
-                                    Collision_Params_T(New_Collision_Params_Comp.all).Wall_Collision := Boolean'Value(Value);
+                                 when "Prev_Frame_Collision" =>
+                                    Collision_Params_T(New_Collision_Params_Comp.all).Prev_Frame_Collision := Boolean'Value(Value);
                                  when others =>
                                     Put_Line("Unknown property for Collision_Params component: " & Property_Name);
                               end case;

@@ -8,72 +8,76 @@ package Win32 is
    package IC renames Interfaces.C; use IC;
    package ICS renames IC.Strings;
 
-   CS_VREDRAW : constant := 16#1#;
-   CS_HREDRAW : constant := 16#2#;
+   CS_VREDRAW        : constant := 16#1#;
+   CS_HREDRAW        : constant := 16#2#;
 
-   WM_DESTROY : constant := 16#2#;
-   WM_PAINT : constant := 16#f#;
-   WM_QUIT : constant := 16#0012#;
-   WM_SETCURSOR : constant := 16#20#;  -- Define the set cursor message
-   HTCLIENT : constant := 16#01#;  -- Hit-test value for the client area
-   COLOR_BACKGROUND : constant := 1;
-   BLACK_BRUSH : constant := 4;
+   WM_DESTROY        : constant := 16#2#;
+   WM_PAINT          : constant := 16#f#;
+   WM_QUIT           : constant := 16#0012#;
+   WM_SETCURSOR      : constant := 16#20#;  -- Define the set cursor message
+   HTCLIENT          : constant := 16#01#;  -- Hit-test value for the client area
+   COLOR_BACKGROUND  : constant := 1;
+   BLACK_BRUSH       : constant := 4;
 
    WS_OVERLAPPEDWINDOW : constant := 16#cf0000#;
-   WS_VISIBLE : constant := 16#10000000#;
+   WS_VISIBLE        : constant := 16#10000000#;
 
-   SW_SHOW : constant := 5;
+   SW_SHOW           : constant := 5;
 
-   BI_RGB : constant := 0;
-   DIB_RGB_COLORS : constant := 0;
+   BI_RGB            : constant := 0;
+   DIB_RGB_COLORS    : constant := 0;
 
    -- Key constants
-   WM_KEYDOWN : constant := 16#100#;  -- Define the key-down message
-   WM_KEYUP : constant := 16#101#;    -- Define the key-up message
-   WM_LBUTTONDOWN : constant := 16#201#;  -- Define the left mouse button down message
-   WM_LBUTTONUP : constant := 16#202#;  -- Left mouse button up
-   WM_MOUSEMOVE : constant := 16#200#;  -- Mouse move message
+   WM_KEYDOWN        : constant := 16#100#; -- Define the key-down message
+   WM_KEYUP          : constant := 16#101#; -- Define the key-up message
+   WM_MOUSEMOVE      : constant := 16#200#; -- Mouse move message
+   WM_LBUTTONDOWN    : constant := 16#201#; -- Define the left mouse button down message
+   WM_LBUTTONUP      : constant := 16#202#; -- Left mouse button up
+   WM_LBUTTONDBLCLK  : constant := 16#203#; -- Left mouse button double click
+   WM_RBUTTONDOWN    : constant := 16#204#; -- Right mouse button down
+   WM_RBUTTONUP      : constant := 16#205#; -- Right mouse button up
+   
 
-   MK_LBUTTON : constant := 1;          -- Left mouse button
-   MK_RBUTTON : constant := 2;          -- Right mouse button
-   MK_SHIFT   : constant := 4;          -- SHIFT key
-   MK_CONTROL : constant := 8;          -- CTRL key
-   MK_MBUTTON : constant := 16;         -- Middle mouse button
-   MK_XBUTTON1 : constant := 32;        -- X1 mouse button (extra button)
-   MK_XBUTTON2 : constant := 64;        -- X2 mouse button (extra button)
+   MK_LBUTTON        : constant := 1;       -- Left mouse button
+   MK_RBUTTON        : constant := 2;       -- Right mouse button
+   MK_SHIFT          : constant := 4;       -- SHIFT key
+   MK_CONTROL        : constant := 8;       -- CTRL key
+   MK_MBUTTON        : constant := 16;      -- Middle mouse button
+   MK_XBUTTON1       : constant := 32;      -- X1 mouse button (extra button)
+   MK_XBUTTON2       : constant := 64;      -- X2 mouse button (extra button)
 
    
 
 
 
    -- Windowing events -- 
-   WM_SIZE : constant := 16#0005#;           -- Sent after a window's size has changed
-   WM_SIZING : constant := 16#0214#;         -- Sent while a window is being resized
-   WM_GETMINMAXINFO : constant := 16#0024#;  -- Sent to determine minimum and maximum window sizes
+   WM_SIZE           : constant := 16#0005#; -- Sent after a window's size has changed
+   WM_SIZING         : constant := 16#0214#; -- Sent while a window is being resized
+   WM_GETMINMAXINFO  : constant := 16#0024#; -- Sent to determine minimum and maximum window sizes
    WM_WINDOWPOSCHANGED : constant := 16#0047#; -- Sent after a window's position or size changes
     -- Text Formating options, used in DrawTextA as a bit mask ( e.g., DT_LEFT | DTVCENTER)
     -- Horizontal Alignment
-   DT_LEFT      : constant := 16#0000#; -- Align text to the left
-   DT_CENTER    : constant := 16#0001#; -- Center text horizontally
-   DT_RIGHT     : constant := 16#0002#; -- Align text to the right
+   DT_LEFT           : constant := 16#0000#; -- Align text to the left
+   DT_CENTER         : constant := 16#0001#; -- Center text horizontally
+   DT_RIGHT          : constant := 16#0002#; -- Align text to the right
 
    -- Vertical Alignment
-   DT_TOP       : constant := 16#0000#; -- Align text to the top (default)
-   DT_VCENTER   : constant := 16#0004#; -- Center text vertically
-   DT_BOTTOM    : constant := 16#0008#; -- Align text to the bottom
+   DT_TOP            : constant := 16#0000#; -- Align text to the top (default)
+   DT_VCENTER        : constant := 16#0004#; -- Center text vertically
+   DT_BOTTOM         : constant := 16#0008#; -- Align text to the bottom
 
    -- Text Formatting
-   DT_WORDBREAK : constant := 16#0010#; -- Automatically break lines
-   DT_SINGLELINE: constant := 16#0020#; -- Single line (ignore word wrapping)
-   DT_EXPANDTABS: constant := 16#0040#; -- Expand tab characters
-   DT_TABSTOP   : constant := 16#0080#; -- Set tab stops (use `DT_EXPANDTABS`)
-   DT_NOCLIP    : constant := 16#0100#; -- Do not clip text (allow drawing outside rect)
+   DT_WORDBREAK      : constant := 16#0010#; -- Automatically break lines
+   DT_SINGLELINE     : constant := 16#0020#; -- Single line (ignore word wrapping)
+   DT_EXPANDTABS     : constant := 16#0040#; -- Expand tab characters
+   DT_TABSTOP        : constant := 16#0080#; -- Set tab stops (use `DT_EXPANDTABS`)
+   DT_NOCLIP         : constant := 16#0100#; -- Do not clip text (allow drawing outside rect)
    DT_EXTERNALLEADING : constant := 16#0200#; -- Include external leading in height calculations
 
    -- Ellipsis & Trimming
-   DT_CALCRECT  : constant := 16#0400#; -- Calculate the bounding rectangle without drawing
-   DT_NOPREFIX  : constant := 16#0800#; -- Ignore `&` prefix for shortcut keys
-   DT_INTERNAL  : constant := 16#1000#; -- Use system font metrics
+   DT_CALCRECT       : constant := 16#0400#; -- Calculate the bounding rectangle without drawing
+   DT_NOPREFIX       : constant := 16#0800#; -- Ignore `&` prefix for shortcut keys
+   DT_INTERNAL       : constant := 16#1000#; -- Use system font metrics
 
    -- Ellipsis options (used when text overflows)
    DT_END_ELLIPSIS   : constant := 16#8000#; -- Add `...` at the end of overflowing text
@@ -81,8 +85,8 @@ package Win32 is
    DT_WORD_ELLIPSIS  : constant := 16#20000#; -- Add `...` at the end of last visible word
 
    -- Used in SetBkMode
-   TRANSPARENT  : constant := 1;  -- Background is transparent (no fill behind text)
-   OPAQUE       : constant := 2;  -- Background is filled with the current background color
+   TRANSPARENT       : constant := 1;        -- Background is transparent (no fill behind text)
+   OPAQUE            : constant := 2;        -- Background is filled with the current background color
 
  --  type LPCSTR is access constant IC.char;
    type LPCSTR is new ICS.chars_ptr;
@@ -419,5 +423,17 @@ package Win32 is
          H_Dc  : HDC
       ) return Boolean
    with Import => True, Convention => C, External_Name => "ReleaseDC";
+
+   function GetCursorPos (
+      lpPoint : access POINT
+   ) return Interfaces.C.int
+   with Import => True, Convention => Stdcall, External_Name => "GetCursorPos";
+
+   function ScreenToClient (
+      H_Wnd    : HWND;
+      lpPoint : access POINT
+   ) return Interfaces.C.int
+   with Import => True, Convention => Stdcall, External_Name => "ScreenToClient";
+
 
 end Win32;
