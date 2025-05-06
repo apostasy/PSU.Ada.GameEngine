@@ -7,5 +7,6 @@ package ECS is
 
 
    -- Package level static variables
-   MousePos : MousePosition := ((0.0,0.0),(0.0,0.0));
+   MousePos       : MousePosition := ((0.0,0.0),(0.0,0.0));
+   WindowWidth    : Integer := 0;
 end ECS;

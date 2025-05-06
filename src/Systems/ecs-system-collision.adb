@@ -1,5 +1,3 @@
-
-
 package body ECS.System.Collision is
    -- Checks all entities for collisions 
    procedure Execute ( Self      : in out Collision_T;
@@ -19,32 +17,31 @@ package body ECS.System.Collision is
             declare
                BB_A : AABB_T renames AABB_T(Bounding_Box_A.all);
                BB_B : AABB_T renames AABB_T(Bounding_Box_B.all);
-               A_Right_Of_B : Boolean := BB_A.Left > BB_B.Right;
-               A_Left_Of_B  : Boolean := BB_A.Right < BB_B.Left;
-               A_Above_B    : Boolean := BB_A.Bottom < BB_B.Top;
-               A_Below_B    : Boolean := BB_A.Top > BB_B.Bottom;
+               A_Right_Of_B : Boolean := BB_A.Left    > BB_B.Right;
+               A_Left_Of_B  : Boolean := BB_A.Right   < BB_B.Left;
+               A_Above_B    : Boolean := BB_A.Bottom  < BB_B.Top;
+               A_Below_B    : Boolean := BB_A.Top     > BB_B.Bottom;
             begin
                return not (A_Right_Of_B or A_Left_Of_B or A_Above_B or A_Below_B);
             end;
          end Entity_Collision;
-
-         function Wall_Collision(E : access Entity_T'Class) return Boolean is
-            Bounding_Box_E : Component_Access := E.all.Get_Component(AABB_T'Tag);
-         begin
-            if Bounding_Box_E = null then
-               return False;
-            end if;
-            declare
-               BB_E : AABB_T renames AABB_T(Bounding_Box_E.all);
-               Left_Wall : Boolean := BB_E.Left <= 2.0;
-               Top_Wall : Boolean := BB_E.Top <= 2.0;
-               Right_Wall : Boolean := BB_E.Right >= Float(Self.Width) - 2.0;
-               Bottom_Wall : Boolean := BB_E.Bottom >= Float(Self.Height) - 2.0;
-            begin
-               return Left_Wall or Top_Wall or Bottom_Wall or Right_Wall;
-            end;
-         end Wall_Collision;
    begin
+      -- Reset collision flags and preserve previous collision state
+      for Entity of Manager.all.Entities loop
+         declare
+            CP_Access : constant Component_Access := Entity.all.Get_Component(Collision_Params_T'Tag);
+         begin
+            if CP_Access /= null then
+               declare
+                  CP : Collision_Params_T renames Collision_Params_T(CP_Access.all);
+               begin
+                  CP.Prev_Frame_Collision := CP.Collision_Occurred;
+                  CP.Collision_Occurred := False;
+               end;
+            end if;
+         end;
+      end loop;
+
       -- Pairwise checking of entities for collision
       for I in 0 .. Length - 1 loop
          declare
@@ -65,29 +62,10 @@ package body ECS.System.Collision is
                         -- Flag the entity to be removed if set to be destroyed on collision
                         E_1.all.Destroyed := E1_CP.Destroy_On_Collision;
                         E_2.all.Destroyed := E2_CP.Destroy_On_Collision;
-                        if (E_1.all.Id = "B0001" and E_2.all.id = "Enemy") or
-                           (E_1.all.Id = "Enemy" and E_2.all.id = "B0001") then
-                           Score := Score + 10;
-                        end if;
-
-                        if (E_1.all.Id = "Playr" or E_2.all.id = "Playr") then
-                           GameOver := True;
-                        end if;
                      end if;
-                  else
-                     E1_CP.Collision_Occurred := False;
-                     E2_CP.Collision_Occurred := False;
                   end if;
                end;
             end loop;            
-            if E1_CP.Wall_Collision and then Wall_Collision (E_1) then
-               if E1_CP.Collision_Enabled then
-                  E1_CP.Collision_Occurred := True;
-                  E_1.all.Destroyed := E1_CP.Destroy_On_Collision;
-               end if; 
-            else
-               E1_CP.Collision_Occurred := False;
-            end if;
          end;
       end loop;
    end Execute;

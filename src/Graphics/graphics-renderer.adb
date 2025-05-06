@@ -35,7 +35,7 @@ package body Graphics.Renderer is
      (img : in out Byte_Array; x, y : Integer; c : Graphics.Color.Color; Screen_Width, Screen_Height : Natural) is
      Index : Natural := (y * Screen_Width + x) * 4;
    begin
-      if (x > 0 and x < Screen_Width) and (y > 0 and y < Screen_Height) then
+      if (x >= 0 and x < Screen_Width) and (y >= 0 and y < Screen_Height) and C.A > 0 then
          Img(Index)     := Byte(C.B);
          Img(Index + 1) := Byte(C.G);
          Img(Index + 2) := Byte(C.R);
@@ -236,6 +236,9 @@ package body Graphics.Renderer is
    procedure Draw_Filled_Quad(img : in out Byte_Array; X,Y,Width,Height : Float; C : Graphics.Color.Color; Screen_Width, Screen_Height : Natural) is
       V1, V2, V3, V4, V5, V6 : Vec2;
    begin
+      if C.A = 0 then
+         return;
+      end if;
       -- Draw triangle takes in the vertices as reference and swaps them so we need 6 vertices instead of 4 for the quad
       V1 := (X,Y);
       V2 := (X, Y + Height);
@@ -409,27 +412,4 @@ end Draw_String;
       end loop;
 
    end Draw_Image_To_Buffer;
-
-   --  procedure Draw_Image_To_Window (img : Image) is
-   --     use IC;
-
-   --     x0, y0 : IC.int := 0;
-
-   --  begin
-   --     for i in img.r'range(1) loop
-   --        for j in img.r'range(2) loop
-   --           declare
-   --              c       : color :=
-   --                (img.r (i, j), img.g (i, j), img.b (i, j), img.a (i, j));
-   --              c_color : IC.unsigned_long;
-   --              for c_color'address use c'address;
-   --           begin
-   --              if c_color > 0 then
-   --                 Window.draw_pixel (IC.int (i), IC.int (j), c_color);
-   --              end if;
-   --           end;
-   --        end loop;
-   --     end loop;
-   --  end Draw_Image_To_Window;
-
 end Graphics.Renderer;

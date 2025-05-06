@@ -19,9 +19,11 @@ package ECS.Event is
    end record;
 
    -- Event types
-   type EventType_T is (NoEvent, KeyDown, KeyUp, 
+   type EventType_T is (
+                        NoEvent    , KeyDown  , KeyUp, 
                         L_MouseDown, L_MouseUp, MouseMove,
-                        W_Size);
+                        R_MouseDown, R_MouseUp, W_Size
+   );
 
    -- Define the event structure
    type Event_T is record
