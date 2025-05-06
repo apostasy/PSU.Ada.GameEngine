@@ -1,0 +1,14 @@
+name = "game_demo"
+description = ""
+version = "0.1.0-dev"
+
+authors = ["Vogel"]
+maintainers = ["Vogel <robtvogel@gmail.com>"]
+maintainers-logins = ["apostasy"]
+licenses = "MIT OR Apache-2.0 WITH LLVM-exception"
+website = ""
+tags = []
+
+
+[[pins]] 
+psu_ada_gameengine = { path='..' }
