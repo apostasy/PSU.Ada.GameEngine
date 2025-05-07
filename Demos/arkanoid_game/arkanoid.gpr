@@ -1,9 +1,9 @@
 with "../../psu_ada_gameengine.gpr";
-with "config/arkanoid_game_config.gpr";
+with "config/arkanoid_config.gpr";
 project Arkanoid is
 
    for Source_Dirs use ("src/", "config/");
-   for Object_Dir use "obj/" & Arkanoid_Game_Config.Build_Profile;
+   for Object_Dir use "obj/" & Arkanoid_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
    for Main use ("arkanoid.adb");
