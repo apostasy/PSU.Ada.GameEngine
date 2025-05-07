@@ -16,55 +16,16 @@ Download from https://code.visualstudio.com/ and install
 
 This repository: `git clone mailto:git@github.com:apostasy/PSU.Ada.GameEngine.git`
 
-This project relies on the [portable_window repository](https://github.com/ohenley/portable_window).
+## Using the library
 
-## Running the application
-
-The command `alr build` will build the project.
-
-The command `alr run` will run.
-
-## Entity Component System Diagram
-
-
-```mermaid
-classDiagram
-
-    direction LR
-
-    Game --* SceneManager
-    SceneManager --* Scene
-    Scene --* ecs.entity
-
-    ecs.system ..> ecs.component 
-    <<interface>> ecs.system
-
-    ecs.entity --*  ecs.component
-
-    ecs.system <|.. Movement_system
-    ecs.system <|.. Collision_system
-    ecs.system <|.. UserInput_system
-    ecs.system <|.. Render_system
-
-    ecs.component <|-- Color
-    ecs.component <|-- UserInput
-    ecs.component <|-- Transform
-    ecs.component <|-- RigidBody
-    ecs.component <|-- Shape
-
-    Movement_system ..> Transform
-    Movement_system ..> RigidBody
-    
-    Collision_system ..> RigidBody
-    Collision_system ..> Transform
-    Collision_system ..> Shape
-
-    UserInput_system ..> Transform
-    UserInput_system ..> UserInput
-
-    Render_system ..> Color
-    Render_system ..> Transform
-    Render_system ..> Shape
-
-
-```
+* You can use the Demos folder as an example
+* Create a new binary project within this project with `alr init project_title`
+* Add a pin to your project's alire.toml file for this library
+    ```
+    [[pins]] 
+    psu_ada_gameengine = { path='..' } 
+    ```
+* Reference the library in your project's gpr file
+    ```
+    with "../psu_ada_gameengine.gpr";
+    ```
