@@ -37,3 +37,7 @@ This repository: `git clone mailto:git@github.com:apostasy/PSU.Ada.GameEngine.gi
 
 ### Camera Test
 ![Camera Test](examples/Camera%20Test.gif)
+
+### Arkanoid Clone
+![2025-05-06_18-28-12-ezgif com-resize](https://github.com/user-attachments/assets/6d686f35-cf70-4692-8a9e-a7849e584aca)
+
