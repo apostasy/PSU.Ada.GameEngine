@@ -31,7 +31,7 @@ package body ECS.System.Arkanoid is
       B_T renames Transform_T(Transform.all);
       B_A renames AABB_T(B_AABB.all);
       B_S renames Ball_State_T(B_State.all);
-      E_C renames Collision_Params_T(Collision.all);
+      E_C renames Collision_Params_T(Col.all);
       E_A renames AABB_T(AABB.all);
    begin
 
@@ -50,8 +50,16 @@ package body ECS.System.Arkanoid is
       C renames Collision_Params_T(Collision.all);
       B renames Brick_Attributes(Brick_Attr.all);
    begin
-      if C.Collision_Occurred then
-         Score := Score + B.Score;
+      if C.Collision_Occurred and not C.Prev_Frame_Collision then
+            if B.Hits > 0 then
+               B.Hits := B.Hits - 1;
+               Score := Score + B.Score;
+            end if;
+
+            if B.Hits = 0 then
+               C.Destroy_On_Collision := True;
+            end if;
+
       end if;
    end Scoring;
 
