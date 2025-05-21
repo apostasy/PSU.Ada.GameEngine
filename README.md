@@ -29,3 +29,11 @@ This repository: `git clone mailto:git@github.com:apostasy/PSU.Ada.GameEngine.gi
     ```
     with "../psu_ada_gameengine.gpr";
     ```
+
+## Examples
+
+### Animation Test
+![Camera Test](examples/Cloud%20Test.gif)
+
+### Camera Test
+![Camera Test](examples/Camera%20Test.gif)
