@@ -178,6 +178,8 @@ begin
       Texture_Image     : QOI_Image_Data;
    begin
 
+      -- Texures provided by Superjustinbros via https://www.spriters-resource.com/arcade/arkanoid/
+
       Background_Image        := Load_QOI (bkgrd);
       Texture_Image           := Load_QOI(Vaus_File);
       Vaus_Texture            := new Texture_T'(Integer(Texture_Image.Desc.Width),Integer(Texture_Image.Desc.Height),Texture_Image.Data);
